@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROYECTO BULD - LIBRO II - REALISMO SUCIO - DANIEL REMESEIRO</title>
+  <style>
+    /* 1. CONFIGURACIÓN GLOBAL DE PÁGINA Y IMPRESIÓN */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    html, body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Georgia", "Didot", serif;
+      background-color: #e5e5e5;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* BARRA NAVEGACIÓN SUPERIOR FIJA (ADAPTABLE) */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      min-height: 45px;
+      background-color: #111111;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 15px;
+      z-index: 1000;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 8.5pt;
+      letter-spacing: 1.5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .top-nav-title {
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .top-nav a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .top-nav a:hover {
+      opacity: 0.7;
+    }
+
+    .top-nav-btn {
+      background: #333333;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      font-size: 7.5pt;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    /* ADAPTACIÓN ESPECÍFICA PARA PANTALLAS MÓVILES */
+    @media (max-width: 600px) {
+      .top-nav {
+        justify-content: center;
+        padding: 8px 10px;
+      }
+
+      .top-nav-title {
+        font-size: 7.5pt;
+        text-align: center;
+        width: 100%;
+        letter-spacing: 1px;
+      }
+
+      .top-nav-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .main-container {
+        padding-top: 75px !important;
+      }
+    }
+
+    .main-container {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+
+    /* 2. ESTRUCTURA DE PÁGINA A4 (PANTALLA ORIGINAL) */
+    .a4-page {
+      width: 210mm;
+      height: 297mm;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto 12mm auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #fcfcfc;
+      color: #1a1a1a;
+      padding: 10mm 18mm 8mm 18mm;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+    }
+
+    /* ENCABEZADOS Y PIES */
+    .cover-header { margin-top: 1mm; text-align: center; position: relative; }
+    .cover-project-tag { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; letter-spacing: 4px; color: #111111; font-weight: 500; margin-bottom: 0.3mm; }
+    .cover-main-title { font-size: 20pt; letter-spacing: 3px; font-weight: 300; color: #111111; margin-bottom: 0.3mm; text-transform: uppercase; }
+    .cover-subtitle { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 9pt; letter-spacing: 2px; color: #666666; margin-bottom: 2mm; }
+
+    .inner-header { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.5pt; letter-spacing: 3px; color: #777777; border-bottom: 1px solid #eaeaea; padding-bottom: 1.5mm; display: flex; justify-content: space-between; align-items: center; }
+    .page-number { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8pt; letter-spacing: 2px; color: #999999; }
+    .nav-back-link { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 7.5pt; letter-spacing: 1.5px; color: #555555; text-decoration: none; text-transform: uppercase; }
+    .nav-back-link:hover { text-decoration: underline; color: #000; }
+
+    /* ESTILO MAESTRO DE PRÓLOGO */
+    .book-prologue {
+      font-size: 14pt;
+      line-height: 1.4;
+      font-style: italic;
+      color: #333333;
+      max-width: 155mm;
+      margin: 0 auto;
+      text-align: justify;
+      text-justify: inter-word;
+      padding: 2mm 0;
+      border-top: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .book-prologue p {
+      margin: 0 0 2mm 0;
+    }
+
+    /* TEXTOS Y POEMAS */
+    .cover-statement-block { max-width: 160mm; margin: 0 auto; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+    
+    .cover-poem-body { 
+      font-size: 14pt; 
+      line-height: 1.6; 
+      color: #2c2c2c; 
+      font-style: italic; 
+      text-align: left; 
+      margin: 0 auto; 
+      width: fit-content; 
+      max-width: 100%; 
+    }
+    .cover-poem-body p { margin: 0 0 3mm 0; }
+    .cover-poem-signature { font-size: 8.5pt; line-height: 1.5; color: #555; font-style: italic; text-align: left; margin: 3mm auto 0 auto; width: fit-content; }
+
+    /* CONTENEDOR FOTOGRAFÍA VERTICAL MAXIMIZADA */
+    .image-container { 
+      width: 100%; 
+      height: 200mm; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      margin: 1mm 0; 
+      position: relative; 
+      cursor: pointer; 
+    }
+    .image-wrapper { position: relative; display: inline-flex; max-width: 100%; max-height: 100%; }
+    .image-wrapper img { max-width: 100%; max-height: 200mm; object-fit: contain; display: block; }
+    .image-watermark { position: absolute; bottom: 4px; left: 4px; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 7pt; letter-spacing: 1.5px; color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); pointer-events: none; background: rgba(0, 0, 0, 0.35); padding: 1px 4px; z-index: 2; }
+
+    .stanza-content { text-align: center; margin-bottom: 1mm; }
+    .stanza-number { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.5pt; letter-spacing: 4px; color: #333333; font-weight: 600; margin-bottom: 1mm; text-transform: uppercase; }
+    .stanza-text { font-size: 12pt; line-height: 1.45; font-style: italic; color: #1a1a1a; letter-spacing: 0.5px; }
+
+    /* NOTA CURATORIAL Y FICHA TÉCNICA */
+    .section-title { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.5pt; letter-spacing: 3px; color: #111111; border-bottom: 1px solid #111111; padding-bottom: 1mm; margin-top: 1mm; margin-bottom: 2mm; text-transform: uppercase; }
+    .curatorial-text { font-size: 13pt; line-height: 1.55; color: #2c2c2c; text-align: justify; text-justify: inter-word; margin-bottom: 2mm; }
+    .tech-table { width: 100%; border-collapse: collapse; margin-bottom: 2mm; }
+    .tech-table td { padding: 1mm 0; border-bottom: 1px solid #eaeaea; font-size: 8.5pt; }
+    .tech-label { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.5px; color: #666666; width: 35%; text-transform: uppercase; }
+    .tech-value { color: #1a1a1a; font-size: 9pt; }
+
+    /* ÍNDICE Y PRÓLOGO */
+    .index-list { list-style: none; padding: 0; margin: 4mm 0; }
+    .index-item { border-bottom: 1px dashed #cccccc; padding: 3mm 0; display: flex; justify-content: space-between; align-items: baseline; }
+    .index-item a { font-family: "Georgia", serif; font-size: 13pt; color: #111111; text-decoration: none; letter-spacing: 0.5px; }
+    .index-item a:hover { text-decoration: underline; }
+    .index-page-num { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 9pt; color: #777777; letter-spacing: 1px; }
+
+    .print-btn-container { text-align: center; margin-top: 2mm; margin-bottom: 1mm; }
+    .print-btn { background-color: #111111; color: #ffffff; padding: 2mm 6mm; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 7.5pt; letter-spacing: 2px; border: none; cursor: pointer; transition: background 0.2s; }
+    .print-btn:hover { background-color: #333333; }
+
+    .inner-footer { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 7.5pt; letter-spacing: 1.5px; color: #777777; text-align: center; border-top: 1px solid #eaeaea; padding-top: 1.5mm; line-height: 1.4; }
+    .inner-footer a { color: #555555; text-decoration: none; }
+
+    /* LIGHTBOX */
+    #lightbox { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.94); display: none; align-items: center; justify-content: center; z-index: 9999; }
+    #lightbox.active { display: flex; }
+    .lightbox-content-wrapper { position: relative; display: inline-flex; align-items: center; justify-content: center; max-width: 92%; max-height: 92%; }
+    #lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; display: block; }
+    .lightbox-btn { position: absolute; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; font-size: 12pt; cursor: pointer; padding: 6px 12px; user-select: none; font-family: Arial, sans-serif; border-radius: 3px; }
+    .lightbox-btn:hover { background: rgba(255, 255, 255, 0.25); }
+    #lightbox-close { top: -38px; right: 0; font-size: 14pt; padding: 2px 10px; }
+
+    /* MEDIA QUERY ORIGINAL PARA PANTALLAS ESTRECHAS */
+    @media screen and (max-width: 220mm) {
+      .a4-page {
+        width: 95vw;
+        height: auto;
+        min-height: 100vh;
+        margin-bottom: 20px;
+        padding: 20px;
+      }
+      .image-container { height: auto; max-height: 60vh; }
+      .image-wrapper img { max-height: 60vh; }
+    }
+
+    /* 3. ARQUITECTURA DE IMPRESIÓN BLINDADA Y SELECTIVA (SIN HOJAS EN BLANCO) */
+    @media print {
+      .top-nav, .print-btn-container, #lightbox { display: none !important; }
+      .main-container { padding-top: 0 !important; padding-bottom: 0 !important; }
+      html, body { width: 100% !important; height: auto !important; background-color: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+      
+      .a4-page.hide-on-print {
+        display: none !important;
+      }
+
+      .a4-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 10mm 18mm 8mm 18mm !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .a4-page.last-printed-page {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR FIJA -->
+  <div class="top-nav">
+    <div class="top-nav-title">PROYECTO BULD · LIBRO II: REALISMO SUCIO</div>
+    <div class="top-nav-actions">
+      <a href="#indice">▲ ÍNDICE</a>
+      <button class="top-nav-btn" onclick="imprimirLibroCompleto()">IMPRIMIR LIBRO</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+
+    <!-- ==================== PORTADA CON PRÓLOGO INTEGRADO ==================== -->
+    <div class="a4-page" id="portada-libro" data-obra="portada">
+      <div>
+        <div class="cover-header" style="margin-top: 5mm;">
+          <div class="cover-project-tag">PROYECTO BULD</div>
+          <div class="cover-main-title" style="font-size: 20pt; margin-top: 2mm;">REALISMO SUCIO</div>
+          <div class="cover-subtitle">LIBRO II · DANIEL REMESEIRO</div>
+        </div>
+
+        <div class="section-title" style="margin-top: 3mm; margin-bottom: 2mm;">LA MIRADA SIN ADORNO (PRÓLOGO)</div>
+        
+        <div class="book-prologue">
+          <p>El arte contemporáneo suele ponerse estupendo. Le chifla refugiarse en la solemnidad y tirar de discursos largos para maquillar lo obvio: que la vida es incómoda y los martes pesan.</p>
+          <p>El Proyecto Buld de Daniel Remeseiro hace todo lo contrario. Pasa de la teoría y va directo al barro: realismo sucio, el cansancio de la rutina y esa gimnasia diaria de sobrevivir por casa sin hacer mucho ruido.</p>
+          <p>Las siete piezas del libro no están para dar lecciones. Chocan de frente. Por un lado, está el poema hurgando en el madrugón, el desgarro de los días laborables y el pulso torcido de las mañanas de octubre. Por el otro, la cámara fotografía sin maquillaje: manchas de color, texturas de asfalto y esquinas gastadas que sirven como un escudo mecánico frente al ruido de fuera.</p>
+          <p>Remeseiro baja al artista del pedestal. Aquí no hay iluminación divina ni historias raras. Todo se reduce a lo básico: encuadrar la calle a través del objetivo de la cámara para demostrar que seguimos vivos por pura cabezonería.</p>
+        </div>
+
+        <div style="margin-top: 3mm; text-align: right; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 8pt; letter-spacing: 1.5px; color: #444;">
+          <strong>Ramón Tejada</strong>
+        </div>
+      </div>
+
+      <div>
+        <div class="inner-footer">
+          PROYECTO BULD · LIBRO II · REALISMO SUCIO<br>
+          <a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>
+          © DANIEL REMESEIRO · A CORUÑA · Octubre 2026
+        </div>
+      </div>
+    </div>
+
+   <!-- ==================== ÍNDICE ==================== -->
+    <div class="a4-page" id="indice" data-obra="indice">
+      <div>
+        <div class="inner-header"><span>SUMARIO / ÍNDICE DE OBRAS</span><span class="page-number">Página II</span></div>
+        <div class="section-title" style="margin-top: 5mm;">OBRAS INCLUIDAS EN ESTE VOLUMEN</div>
+        
+        <ul class="index-list">
+          <li class="index-item">
+            <a href="#obra-1-p1">I. LA CÁMARA</a>
+            <span class="index-page-num">Pág. 1</span>
+          </li>
+          <li class="index-item">
+            <a href="#obra-2-p1">II. IDEAS</a>
+            <span class="index-page-num">Pág. 4</span>
+          </li>
+          <li class="index-item">
+            <a href="#obra-3-p1">III. LA INFANCIA</a>
+            <span class="index-page-num">Pág. 7</span>
+          </li>
+          <li class="index-item">
+            <a href="#obra-4-p1">IV. MIRAR ADENTRO</a>
+            <span class="index-page-num">Pág. 10</span>
+          </li>
+          <li class="index-item">
+            <a href="#obra-5-p1">V. MI RAZÓN</a>
+            <span class="index-page-num">Pág. 13</span>
+          </li>
+          <li class="index-item">
+            <a href="#obra-6-p1">VI. VENENO</a>
+            <span class="index-page-num">Pág. 16</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="print-btn-container">
+          <button class="print-btn" onclick="imprimirLibroCompleto()">Imprimir Libro Completo / Guardar PDF</button>
+        </div>
+        <div class="inner-footer">
+          PROYECTO BULD · LIBRO II · REALISMO SUCIO<br>
+          <a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>
+          © DANIEL REMESEIRO · A CORUÑA · Octubre 2026
+        </div>
+      </div>
+    </div>
+    <!-- ================================================================= -->
+    <!-- OBRA 1: LA CÁMARA -->
+    <!-- ================================================================= -->
+    <div class="a4-page" id="obra-1-p1" data-obra="obra-1">
+      <div class="cover-header">
+        <a href="#indice" class="nav-back-link" style="position: absolute; left: 0; top: -1mm;">▲ ÍNDICE</a>
+        <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 1</div>
+        <div class="cover-project-tag">PROYECTO BULD</div>
+        <div class="cover-main-title">LA CÁMARA</div>
+      </div>
+      <div class="cover-statement-block">
+        <div class="cover-poem-body">
+          <p>La cámara fotográfica<br>satisface nuestra ansia<br>de captar lo imposible.</p>
+          <p>Si no miras, olvidas.<br>El visor marca la existencia.<br>Todo entra y sale a nuestra voluntad.</p>
+          <p>Encuentra una imagen en la que refugiarte.<br>Retírate al pensamiento.</p><br>
+          <div class="cover-poem-signature">Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · LA CÁMARA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-1-p2" data-obra="obra-1">
+      <div class="inner-header">
+        <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · LA CÁMARA · OBRA VISUAL</span>
+        <span class="page-number">Página 2</span>
+      </div>
+      <div class="stanza-content">
+        <div class="stanza-number">LA CÁMARA</div>
+        <div class="stanza-text">Si no miras, olvidas.<br>El visor marca la existencia.</div>
+      </div>
+      <div class="image-container" onclick="openLightbox('camara.jpg')">
+        <div class="image-wrapper">
+          <img src="camara.jpg" alt="La Cámara" class="gallery-img">
+          <div class="image-watermark">© Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div class="print-btn-container">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-1')">IMPRIMIR ESTA OBRA (3 PÁGS)</button>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · LA CÁMARA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-1-p3" data-obra="obra-1">
+      <div>
+        <div class="inner-header">
+          <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · Nota Curatorial y Ficha Técnica</span>
+          <span class="page-number">Página 3</span>
+        </div>
+        <div class="section-title">NOTA CURATORIAL</div>
+        <div class="curatorial-text">Hay días en que la realidad se pone tan insoportable que uno necesita un visor intermedio para no salir con los ojos arañados. En La cámara, se desarma el mito del artista como un ser superior para dejarlo en lo que es: un tipo cualquiera que usa el objetivo como quien levanta un parapeto contra el ruido de la calle. Nos pasamos el día parpadeando ante la desolación de las esquinas, pero el rectángulo de cristal nos permite elegir qué se queda dentro y qué se manda a paseo.<br><br>No hay magia en congelar un instante; hay una pura necesidad de buscar una trinchera cómoda. La imagen funciona como un refugio de quita y pon donde retirarse cuando el pensamiento aprieta más de la cuenta.</div><br>
+        <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+        <table class="tech-table">
+          <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · LA CÁMARA</td></tr>
+          <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía de Abstracción</td></tr>
+          <tr><td class="tech-label">CAPTURA Y ÓPTICA</td><td class="tech-value">SONY ILCE-6000 (16-50 mm)</td></tr>
+          <tr><td class="tech-label">TÉCNICA FOTOGRÁFICA</td><td class="tech-value">Fotografía digital de abstracción por movimiento intencional de cámara</td></tr>
+          <tr><td class="tech-label">SOPORTE & PAPEL</td><td class="tech-value">Impresión Giclée sobre papel de algodón de alta durabilidad</td></tr>
+          <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+        </table>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · LA CÁMARA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- OBRA 2: IDEAS -->
+    <!-- ================================================================= -->
+    <div class="a4-page" id="obra-2-p1" data-obra="obra-2">
+      <div class="cover-header">
+        <a href="#indice" class="nav-back-link" style="position: absolute; left: 0; top: -1mm;">▲ ÍNDICE</a>
+        <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 4</div>
+        <div class="cover-project-tag">PROYECTO BULD</div>
+        <div class="cover-main-title">IDEAS</div>
+      </div>
+      <div class="cover-statement-block">
+        <div class="cover-poem-body">
+          <p>Ideas con carcasa,<br>en laberinto.</p>
+          <p>Bosquejar una idea.<br>Por ahora no dispares.</p>
+          <p>Nadie se acerca<br>con la intención de abrazarme.</p><br>
+          <div class="cover-poem-signature">Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · IDEAS<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-2-p2" data-obra="obra-2">
+      <div class="inner-header">
+        <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · IDEAS · OBRA VISUAL</span>
+        <span class="page-number">Página 5</span>
+      </div>
+      <div class="stanza-content">
+        <div class="stanza-number">IDEAS</div>
+        <div class="stanza-text">Por ahora no dispares.<br>Nadie se acerca con la intención de abrazarme.</div>
+      </div>
+      <div class="image-container" onclick="openLightbox('idea.jpg')">
+        <div class="image-wrapper">
+          <img src="idea.jpg" alt="Ideas" class="gallery-img">
+          <div class="image-watermark">© Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div class="print-btn-container">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-2')">IMPRIMIR ESTA OBRA (3 PÁGS)</button>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · IDEAS<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-2-p3" data-obra="obra-2">
+      <div>
+        <div class="inner-header">
+          <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · Nota Curatorial y Ficha Técnica</span>
+          <span class="page-number">Página 6</span>
+        </div>
+        <div class="section-title">NOTA CURATORIAL</div>
+        <div class="curatorial-text">Hay pensamientos que nacen blindados para aguantar los golpes de la rutina. Se mueven con torpeza por un laberinto mental sin salida clara, buscando una forma preliminar antes de quedar expuestos al escrutinio del resto. Pedir una tregua antes de apretar el gatillo del juicio rápido es la única manera de permitir que algo frágil llegue a asentarse.<br><br>Al final, la desconfianza del entorno enseña a ir con la coraza puesta. Si nadie se aproxima a la intemperie con ánimos de ofrecer cobijo, lo más sensato es mantener las ideas protegidas hasta que sepan defenderse solas en la calle.</div><br>
+        <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+        <table class="tech-table">
+          <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · IDEAS</td></tr>
+          <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía Documental Urbana</td></tr>
+          <tr><td class="tech-label">CAPTURA Y ÓPTICA</td><td class="tech-value">SONY ILCE-6000 (16-50 mm)</td></tr>
+          <tr><td class="tech-label">TÉCNICA FOTOGRÁFICA</td><td class="tech-value">Fotografía digital documental urbana de registro directo</td></tr>
+          <tr><td class="tech-label">SOPORTE & PAPEL</td><td class="tech-value">Impresión Giclée sobre papel de algodón de alta durabilidad</td></tr>
+          <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+        </table>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · IDEAS<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- OBRA 3: LA INFANCIA -->
+    <!-- ================================================================= -->
+    <div class="a4-page" id="obra-3-p1" data-obra="obra-3">
+      <div class="cover-header">
+        <a href="#indice" class="nav-back-link" style="position: absolute; left: 0; top: -1mm;">▲ ÍNDICE</a>
+        <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 7</div>
+        <div class="cover-project-tag">PROYECTO BULD</div>
+        <div class="cover-main-title">LA INFANCIA</div>
+      </div>
+      <div class="cover-statement-block">
+        <div class="cover-poem-body">
+          <p>La casa de la infancia está cerrada.<br>El cielo no tiene hélices.</p>
+          <p>El miedo hace ruido,<br>pero ya no es asunto tuyo.</p>
+          <p>A veces somos como un animal doméstico<br>comiendo en su plato.</p>
+          <p>En la trastienda de aquello<br>solo queda lo que se puede inundar.</p><br>
+          <div class="cover-poem-signature">Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · LA INFANCIA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-3-p2" data-obra="obra-3">
+      <div class="inner-header">
+        <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · LA INFANCIA · OBRA VISUAL</span>
+        <span class="page-number">Página 8</span>
+      </div>
+      <div class="stanza-content">
+        <div class="stanza-number">LA INFANCIA</div>
+        <div class="stanza-text">En la trastienda de aquello<br>solo queda lo que se puede inundar.</div>
+      </div>
+      <div class="image-container" onclick="openLightbox('infancia.jpg')">
+        <div class="image-wrapper">
+          <img src="infancia.jpg" alt="La Infancia" class="gallery-img">
+          <div class="image-watermark">© Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div class="print-btn-container">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-3')">IMPRIMIR ESTA OBRA (3 PÁGS)</button>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · LA INFANCIA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-3-p3" data-obra="obra-3">
+      <div>
+        <div class="inner-header">
+          <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · Nota Curatorial y Ficha Técnica</span>
+          <span class="page-number">Página 9</span>
+        </div>
+        <div class="section-title">NOTA CURATORIAL</div>
+        <div class="curatorial-text">Mirar atrás no tiene por qué ser un ajuste de cuentas. La casa de la infancia está cerrada simplemente porque ya no vivimos allí, no porque el lugar se haya vuelto inhabitable. El cielo ya no necesita hélices ni artificios para sostenerse. El miedo que hacía ruido de fondo se ha quedado sin pilas, convertido en un asunto ajeno que ya no nos salpica.<br><br>Hay una calma cómoda en la rutina doméstica, como la del animal que se sabe a salvo frente a su plato. Y si en la trastienda de los recuerdos entra el agua de vez en cuando, tampoco pasa nada. El agua limpia el polvo, se lleva lo viejo y deja espacio para lo que viene. La infancia no es una trampa; es solo el sitio del que salimos caminando por nuestro propio pie.</div><br>
+        <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+        <table class="tech-table">
+          <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · LA INFANCIA</td></tr>
+          <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía Documental Urbana</td></tr>
+          <tr><td class="tech-label">CAPTURA Y ÓPTICA</td><td class="tech-value">SONY ILCE-6000 (16-50 mm)</td></tr>
+          <tr><td class="tech-label">TÉCNICA FOTOGRÁFICA</td><td class="tech-value">Fotografía digital documental de registro directo y luz de ambiente</td></tr>
+          <tr><td class="tech-label">SOPORTE & PAPEL</td><td class="tech-value">Impresión Giclée sobre papel de algodón de alta durabilidad</td></tr>
+          <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+        </table>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · LA INFANCIA<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- OBRA 4: MIRAR ADENTRO -->
+    <!-- ================================================================= -->
+    <div class="a4-page" id="obra-4-p1" data-obra="obra-4">
+      <div class="cover-header">
+        <a href="#indice" class="nav-back-link" style="position: absolute; left: 0; top: -1mm;">▲ ÍNDICE</a>
+        <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 10</div>
+        <div class="cover-project-tag">PROYECTO BULD</div>
+        <div class="cover-main-title">MIRAR ADENTRO</div>
+      </div>
+      <div class="cover-statement-block">
+        <div class="cover-poem-body">
+          <p>Mi espíritu se levanta antes que yo.</p>
+          <p>Para localizarlo<br>tengo que utilizar los ojos de mi memoria,<br>que son más prácticos.</p>
+          <p>Así lo localizo<br>siempre que quiero.</p><br>
+          <div class="cover-poem-signature">Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · MIRAR ADENTRO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-4-p2" data-obra="obra-4">
+      <div class="inner-header">
+        <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · MIRAR ADENTRO · OBRA VISUAL</span>
+        <span class="page-number">Página 11</span>
+      </div>
+      <div class="stanza-content">
+        <div class="stanza-number">MIRAR ADENTRO</div>
+        <div class="stanza-text">Para localizarlo tengo que utilizar los ojos de mi memoria,<br>que son más prácticos.</div>
+      </div>
+      <div class="image-container" onclick="openLightbox('miraradentro.jpg')">
+        <div class="image-wrapper">
+          <img src="miraradentro.jpg" alt="Mirar Adentro" class="gallery-img">
+          <div class="image-watermark">© Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div class="print-btn-container">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-4')">IMPRIMIR ESTA OBRA (3 PÁGS)</button>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · MIRAR ADENTRO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-4-p3" data-obra="obra-4">
+      <div>
+        <div class="inner-header">
+          <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · Nota Curatorial y Ficha Técnica</span>
+          <span class="page-number">Página 12</span>
+        </div>
+        <div class="section-title">NOTA CURATORIAL</div>
+        <div class="curatorial-text">El cuerpo madruga por obligación, pero la mente a veces se adelanta y sale a la calle antes de atarse las botas. En Mirar adentro, el hablante prescinde de discursos místicos para tratar lo intangible con la lógica de un cajón de herramientas: el espíritu no se busca en el cielo ni en revelaciones solemnes, sino con el recurso más útil y cotidiano que queda a mano.<br><br>Los ojos de la memoria no están para ponerse nostálgicos, sino para dar con lo que se ha traspapelado entre el ruido del día a día. Saber exactamente dónde buscarse cuando la rutina aprieta es la forma más elemental de no perder el rumbo.</div><br>
+        <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+        <table class="tech-table">
+          <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · MIRAR ADENTRO</td></tr>
+          <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía Documental Urbana</td></tr>
+          <tr><td class="tech-label">CAPTURA Y ÓPTICA</td><td class="tech-value">SONY ILCE-6000 (16-50 mm)</td></tr>
+          <tr><td class="tech-label">TÉCNICA FOTOGRÁFICA</td><td class="tech-value">Fotografía digital documental de registro directo y luz de ambiente</td></tr>
+          <tr><td class="tech-label">SOPORTE & PAPEL</td><td class="tech-value">Impresión Giclée sobre papel de algodón de alta durabilidad</td></tr>
+          <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+        </table>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · MIRAR ADENTRO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- OBRA 5: MI RAZÓN -->
+    <!-- ================================================================= -->
+    <div class="a4-page" id="obra-5-p1" data-obra="obra-5">
+      <div class="cover-header">
+        <a href="#indice" class="nav-back-link" style="position: absolute; left: 0; top: -1mm;">▲ ÍNDICE</a>
+        <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 13</div>
+        <div class="cover-project-tag">PROYECTO BULD</div>
+        <div class="cover-main-title">MI RAZÓN</div>
+      </div>
+      <div class="cover-statement-block">
+        <div class="cover-poem-body">
+          <p>No exagero nada, hago todo lo contrario.<br>Rebuscar en los hechos encontrados,<br>falsos fondos para la conciencia.<br>Permanezco mudo y callado.</p>
+          <p>Dije cosas que había olvidado.<br>O no, al contrario:<br>recordé lo que nunca llegué a decir.</p>
+          <p>Y le presté a mi razón<br>un par de monedas.</p><br>
+          <div class="cover-poem-signature">Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · MI RAZÓN<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-5-p2" data-obra="obra-5">
+      <div class="inner-header">
+        <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · MI RAZÓN · OBRA VISUAL</span>
+        <span class="page-number">Página 14</span>
+      </div>
+      <div class="stanza-content">
+        <div class="stanza-number">MI RAZÓN</div>
+        <div class="stanza-text">Dije cosas que había olvidado.<br>O no, al contrario:<br>recordé lo que nunca llegué a decir.</div>
+      </div>
+      <div class="image-container" onclick="openLightbox('mirazon.jpg')">
+        <div class="image-wrapper">
+          <img src="mirazon.jpg" alt="Mi Razón" class="gallery-img">
+          <div class="image-watermark">© Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div class="print-btn-container">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-5')">IMPRIMIR ESTA OBRA (3 PÁGS)</button>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · MI RAZÓN<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-5-p3" data-obra="obra-5">
+      <div>
+        <div class="inner-header">
+          <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · Nota Curatorial y Ficha Técnica</span>
+          <span class="page-number">Página 15</span>
+        </div>
+        <div class="section-title">NOTA CURATORIAL</div>
+        <div class="curatorial-text">No hace falta buscar grandes coartadas morales cuando lo único que queda es ajustar cuentas con uno mismo. En Mi razón, el hablante transita por esos falsos cajones de la conciencia donde los hechos se recolocan a conveniencia, oscilando entre la necesidad de guardar silencio y el vértigo de recuperar palabras que se daban por perdidas.<br><br>La vida cotidiana no se sostiene con verdades absolutas, sino con pequeños apaños y transacciones de andar por casa. Prestarle unas monedas a la razón es la metáfora justa de esa supervivencia íntima: pagar el peaje del día a día para poder seguir caminando sin mirar demasiado hondo en el espejo.</div><br>
+        <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+        <table class="tech-table">
+          <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · MI RAZÓN</td></tr>
+          <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía de Abstracción Pictórica</td></tr>
+          <tr><td class="tech-label">CAPTURA Y ÓPTICA</td><td class="tech-value">SONY ILCE-6000 (16-50 mm)</td></tr>
+          <tr><td class="tech-label">TÉCNICA FOTOGRÁFICA</td><td class="tech-value">Fotografía digital de abstracción por movimiento intencional de cámara y superposición de capas etéreas</td></tr>
+          <tr><td class="tech-label">SOPORTE & PAPEL</td><td class="tech-value">Impresión Giclée sobre papel de algodón de alta durabilidad</td></tr>
+          <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+        </table>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · MI RAZÓN<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- OBRA 6: VENENO -->
+    <!-- ================================================================= -->
+    <div class="a4-page" id="obra-6-p1" data-obra="obra-6">
+      <div class="cover-header">
+        <a href="#indice" class="nav-back-link" style="position: absolute; left: 0; top: -1mm;">▲ ÍNDICE</a>
+        <div style="position: absolute; right: 0; top: -1mm;" class="page-number">Página 16</div>
+        <div class="cover-project-tag">PROYECTO BULD</div>
+        <div class="cover-main-title">VENENO</div>
+      </div>
+      <div class="cover-statement-block">
+        <div class="cover-poem-body">
+          <p>Veneno particular.<br>A la maldad le gusta el mal humor.</p>
+          <p>¿Quién empieza el momento:<br>el que mira o lo que se mira?</p>
+          <p>Estamos en octubre.<br>Esto no es el resultado de un problema.</p><br>
+          <div class="cover-poem-signature">Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · VENENO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-6-p2" data-obra="obra-6">
+      <div class="inner-header">
+        <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · VENENO · OBRA VISUAL</span>
+        <span class="page-number">Página 17</span>
+      </div>
+      <div class="stanza-content">
+        <div class="stanza-number">VENENO</div>
+        <div class="stanza-text">¿Quién empieza el momento:<br>el que mira o lo que se mira?</div>
+      </div>
+      <div class="image-container" onclick="openLightbox('veneno.jpg')">
+        <div class="image-wrapper">
+          <img src="veneno.jpg" alt="Veneno" class="gallery-img">
+          <div class="image-watermark">© Daniel Remeseiro</div>
+        </div>
+      </div>
+      <div class="print-btn-container">
+        <button class="print-btn" onclick="imprimirObraIndividual('obra-6')">IMPRIMIR ESTA OBRA (3 PÁGS)</button>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · VENENO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+    <div class="a4-page" id="obra-6-p3" data-obra="obra-6">
+      <div>
+        <div class="inner-header">
+          <span><a href="#indice" class="nav-back-link">▲ ÍNDICE</a> · Nota Curatorial y Ficha Técnica</span>
+          <span class="page-number">Página 18</span>
+        </div>
+        <div class="section-title">NOTA CURATORIAL</div>
+        <div class="curatorial-text">Hay un tipo de veneno doméstico que se destila sin prisa, una mala leche de baja intensidad que se alimenta del mal humor cotidiano. Octubre llega con su luz gris y la pregunta de siempre salta a la vista: no está claro si el desencanto nace en el ojo del que observa o si ya venía de serie en lo que se mira.<br><br>No hay que buscar explicaciones complicadas ni culpar a un gran problema de fondo. Las cosas son como son. Mirar de frente la rutina sin adornos es el primer paso para no dejar que el amargor del entorno termine comiéndote el terreno.</div><br>
+        <div class="section-title">FICHA TÉCNICA Y ESPECIFICACIONES</div>
+        <table class="tech-table">
+          <tr><td class="tech-label">TÍTULO DE LA OBRA</td><td class="tech-value">PROYECTO BULD · VENENO</td></tr>
+          <tr><td class="tech-label">ESTRUCTURA</td><td class="tech-value">Obra poético-visual compuesta por texto y Fotografía Documental Urbana</td></tr>
+          <tr><td class="tech-label">CAPTURA Y ÓPTICA</td><td class="tech-value">SONY ILCE-6000 (16-50 mm)</td></tr>
+          <tr><td class="tech-label">TÉCNICA FOTOGRÁFICA</td><td class="tech-value">Fotografía digital documental de registro directo y luz de ambiente</td></tr>
+          <tr><td class="tech-label">SOPORTE & PAPEL</td><td class="tech-value">Impresión Giclée sobre papel de algodón de alta durabilidad</td></tr>
+          <tr><td class="tech-label">UBICACIÓN & AÑO</td><td class="tech-value">A Coruña, Galicia 2026</td></tr>
+        </table>
+      </div>
+      <div><div class="inner-footer">PROYECTO BULD · VENENO<br><a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a> | WhatsApp | <a href="https://www.danielremeseiro.es" target="_blank">www.danielremeseiro.es</a><br>© DANIEL REMESEIRO · A CORUÑA · Octubre 2026</div></div>
+    </div>
+
+  </div> <!-- FIN MAIN CONTAINER -->
+
+  <!-- LIGHTBOX PARA AMPLIACIÓN DE IMÁGENES -->
+  <div id="lightbox">
+    <div class="lightbox-content-wrapper">
+      <button id="lightbox-close" class="lightbox-btn" onclick="closeLightbox()">×</button>
+      <img id="lightbox-img" src="" alt="Imagen ampliada">
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) { 
+      const lightbox = document.getElementById("lightbox");
+      const img = document.getElementById("lightbox-img");
+      img.src = src;
+      lightbox.classList.add("active"); 
+    } 
+
+    function closeLightbox() { 
+      document.getElementById("lightbox").classList.remove("active"); 
+    } 
+
+    // LÓGICA DE IMPRESIÓN MODULAR Y SELECTIVA SIN HOJAS EN BLANCO
+    function imprimirObraIndividual(obraId) {
+      const paginas = document.querySelectorAll('.a4-page');
+      let paginasVisibles = [];
+
+      paginas.forEach(pag => {
+        pag.classList.remove('last-printed-page');
+        if (pag.getAttribute('data-obra') !== obraId) {
+          pag.classList.add('hide-on-print');
+        } else {
+          pag.classList.remove('hide-on-print');
+          paginasVisibles.push(pag);
+        }
+      });
+
+      if (paginasVisibles.length > 0) {
+        paginasVisibles[paginasVisibles.length - 1].classList.add('last-printed-page');
+      }
+
+      window.print();
+
+      paginas.forEach(pag => {
+        pag.classList.remove('hide-on-print');
+        pag.classList.remove('last-printed-page');
+      });
+    }
+
+    function imprimirLibroCompleto() {
+      const paginas = document.querySelectorAll('.a4-page');
+      paginas.forEach(pag => {
+        pag.classList.remove('hide-on-print');
+        pag.classList.remove('last-printed-page');
+      });
+
+      if (paginas.length > 0) {
+        paginas[paginas.length - 1].classList.add('last-printed-page');
+      }
+
+      window.print();
+
+      paginas.forEach(pag => {
+        pag.classList.remove('last-printed-page');
+      });
+    }
+
+    document.addEventListener('keydown', function(event) { 
+      if (event.key === "Escape") { 
+        closeLightbox(); 
+      } 
+    });
+  </script>
+</body>
+</html>
